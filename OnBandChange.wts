@@ -1,0 +1,34 @@
+-- script to change radio TX power on band change
+-- can be necessary to adjust the input power of a linear amplifier
+-- sends a command via the netword to my App
+
+_, _, band, radio = string.find(wtArg, "(%d+[GKM]*)/(%d+)")
+
+if (POut == nil) then -- Init array
+        POut = {}
+        POut["160"] = 16
+        POut["80"] = 80
+		POut["60"] = 60
+        POut["40"] = 40
+        POut["30"] = 30
+        POut["20"] = 20
+        POut["17"] = 17
+        POut["15"] = 15
+        POut["12"] = 12
+		POut["10"] = 10
+		POut["50"] = 6
+        POut["0"] = 5
+end
+
+if ((band == nil) or (POut[band] == nil)) then
+        cmd = string.format("PC%03d;", 5)
+else
+        cmd = string.format("PC%03d;", POut[band])
+end
+
+-- send twice as it is important !
+wtRadio1:Send(cmd)
+wtRadio1:Send(cmd)
+
+QsyCmd="QSY/"..band
+wtApp:TextCommand(QsyCmd,"SNIFFER",2)
