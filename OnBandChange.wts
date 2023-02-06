@@ -30,5 +30,6 @@ end
 wtRadio1:Send(cmd)
 wtRadio1:Send(cmd)
 
-QsyCmd="QSY/"..band
+-- send a dedicaced command via the network to my App that is named SNIFFER on the network
+QsyCmd = "QSY/"..band
 wtApp:TextCommand(QsyCmd,"SNIFFER",2)
